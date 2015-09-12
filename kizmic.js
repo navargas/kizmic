@@ -45,9 +45,16 @@ kizmic.prototype.load = function(spec, alias) {
   this.currentSpec = alias;
 };
 
+kizmic.prototype.jump = function(alias) {
+  this.buffer = '';
+  this.specCache[alias].keynow = this.specCache[alias].keyorig;
+  this.show(alias);
+};
+
 kizmic.prototype.show = function(alias) {
   var spec = this.specCache[alias];
   var items = this.specCache[alias].jsonmap;
+  this.currentSpec = alias;
   this.elem.empty();
   for ( var i in spec.keynow ) {
     var keyname = spec.keynow[i];
@@ -57,6 +64,14 @@ kizmic.prototype.show = function(alias) {
     lItem.html(kizmic_highlight(item.name, this.buffer, this.highlight_tag));
     lItem.addClass(item.type);
     this.elem.append(lItem);
+  }
+};
+
+kizmic.prototype.select = function() {
+  var currentKey = this.specCache[this.currentSpec].keynow;
+  var item = this.specCache[this.currentSpec].jsonmap[currentKey];
+  if (item.link) {
+    this.jump(item.link);
   }
 };
 
@@ -81,8 +96,9 @@ kizmic.prototype.key = function(e) {
   } else if ( keycode == 8 ) {
     this.buffer = this.buffer.substring(0, this.buffer.length-1);
     this.narrow(this.buffer);
+  } else if ( keycode == 13 ) {
+    this.select();
   }
-
 };
 
 $(document).keypress(function(e) {
