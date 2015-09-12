@@ -60,7 +60,7 @@ kizmic.prototype.show = function(alias) {
   }
 };
 
-kizmic.prototype.select = function(characters) {
+kizmic.prototype.narrow = function(characters) {
   var selection = this.specCache[this.currentSpec].keyorig.filter(kizmic_startsWith(characters));
   this.specCache[this.currentSpec].keynow = selection;
   console.log(selection);
@@ -74,13 +74,13 @@ kizmic.prototype.key = function(e) {
     var character = String.fromCharCode(keycode);
     this.buffer += character;
     console.log('Buffer:', this.buffer);
-    this.select(this.buffer);
+    this.narrow(this.buffer);
   } else if ( keycode == 3 ) {
     this.buffer = '';
-    this.select(this.buffer);
+    this.narrow(this.buffer);
   } else if ( keycode == 8 ) {
     this.buffer = this.buffer.substring(0, this.buffer.length-1);
-    this.select(this.buffer);
+    this.narrow(this.buffer);
   }
 
 };
