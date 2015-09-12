@@ -1,5 +1,3 @@
-// Load -> take array and build map, and ordered list
-
 var kizmic_focus;
 
 var kizmic = function(selector) {
@@ -13,6 +11,7 @@ var kizmic = function(selector) {
 };
 
 var kizmic_startsWith = function(characters) {
+  /* return function that yeilds true for all characters beginning with 'characters' */
   var check = characters;
   function checkLeadingChars(string) {
     if (check.length == 0 || string.substring(0, check.length) == check) {
@@ -33,6 +32,7 @@ var kizmic_highlight = function(string, selector, wrap) {
 };
 
 kizmic.prototype.load = function(spec, alias) {
+  /* store json kizmic page */
   var specObj = {keysort:[], jsonmap:{}, keyorig:[], keynow:[]};
   for ( i in spec ) {
     specObj.keyorig.push(spec[i].name);
@@ -46,12 +46,14 @@ kizmic.prototype.load = function(spec, alias) {
 };
 
 kizmic.prototype.jump = function(alias) {
+  /* switch to spec 'alias' */
   this.buffer = '';
   this.specCache[alias].keynow = this.specCache[alias].keyorig;
   this.show(alias);
 };
 
 kizmic.prototype.show = function(alias) {
+  /* display keynow list for spec 'alias' */
   var spec = this.specCache[alias];
   var items = this.specCache[alias].jsonmap;
   this.currentSpec = alias;
@@ -68,6 +70,7 @@ kizmic.prototype.show = function(alias) {
 };
 
 kizmic.prototype.select = function() {
+  /* when return key is pressed */
   var currentKey = this.specCache[this.currentSpec].keynow;
   var item = this.specCache[this.currentSpec].jsonmap[currentKey];
   if (item.link) {
@@ -76,6 +79,7 @@ kizmic.prototype.select = function() {
 };
 
 kizmic.prototype.narrow = function(characters) {
+  /* narrow original item list to just items that begin with 'characters' */
   var selection = this.specCache[this.currentSpec].keyorig.filter(kizmic_startsWith(characters));
   this.specCache[this.currentSpec].keynow = selection;
   console.log(selection);
@@ -83,20 +87,25 @@ kizmic.prototype.narrow = function(characters) {
 };
 
 kizmic.prototype.key = function(e) {
+  /* Process keypresses */
   var keycode = e.which;
   console.log('k', e.which, e);
   if (keycode >= 32 && keycode <= 126) {
+    // valid printable character
     var character = String.fromCharCode(keycode);
     this.buffer += character;
     console.log('Buffer:', this.buffer);
     this.narrow(this.buffer);
   } else if ( keycode == 3 ) {
+    // CTRL-C
     this.buffer = '';
     this.narrow(this.buffer);
   } else if ( keycode == 8 ) {
+    // backspace
     this.buffer = this.buffer.substring(0, this.buffer.length-1);
     this.narrow(this.buffer);
   } else if ( keycode == 13 ) {
+    // return
     this.select();
   }
 };
