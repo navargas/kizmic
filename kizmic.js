@@ -71,7 +71,7 @@ kizmic.prototype.show = function(alias) {
 
 kizmic.prototype.select = function() {
   /* when return key is pressed */
-  var currentKey = this.specCache[this.currentSpec].keynow;
+  var currentKey = this.specCache[this.currentSpec].keynow[0];
   var item = this.specCache[this.currentSpec].jsonmap[currentKey];
   if (item.link) {
     this.jump(item.link);
