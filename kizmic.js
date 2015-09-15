@@ -5,7 +5,7 @@ var kizmic = function(selector) {
   this.specCache = {};
   this.currentSpec = undefined;
   this.buffer = '';
-  this.highlight_tag = $('<u>');
+  this.highlight_tag = $('<span>');
   this.highlight_tag.addClass('selection');
   kizmic_focus = this;
 };
@@ -52,6 +52,14 @@ kizmic.prototype.jump = function(alias) {
   this.show(alias);
 };
 
+kizmic_elementHTML = function(text, select, highlight, styleClass) {
+  /* generate DOM object for kizmic item */
+  var lItem = $('<div>');
+  lItem.html(kizmic_highlight(text, select, highlight));
+  lItem.addClass(styleClass);
+  return lItem;
+};
+
 kizmic.prototype.show = function(alias) {
   /* display keynow list for spec 'alias' */
   var spec = this.specCache[alias];
@@ -61,11 +69,10 @@ kizmic.prototype.show = function(alias) {
   for ( var i in spec.keynow ) {
     var keyname = spec.keynow[i];
     var item = this.specCache[alias].jsonmap[keyname];
-    console.log(keyname);
-    var lItem = $('<div>');
-    lItem.html(kizmic_highlight(item.name, this.buffer, this.highlight_tag));
-    lItem.addClass(item.type);
-    this.elem.append(lItem);
+    this.elem.append(kizmic_elementHTML(item.name,
+          this.buffer, this.highlight_tag, item.type));
+  }
+  if (spec.keynow.length == 0) {
   }
 };
 
