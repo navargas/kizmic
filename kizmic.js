@@ -52,10 +52,10 @@ kizmic.prototype.jump = function(alias) {
   this.show(alias);
 };
 
-kizmic_elementHTML = function(text, select, highlight, styleClass) {
+kizmic.prototype.elementHTML = function(text, select, styleClass) {
   /* generate DOM object for kizmic item */
   var lItem = $('<div>');
-  lItem.html(kizmic_highlight(text, select, highlight));
+  lItem.html(kizmic_highlight(text, select, this.highlight_tag));
   lItem.addClass(styleClass);
   return lItem;
 };
@@ -69,10 +69,10 @@ kizmic.prototype.show = function(alias) {
   for ( var i in spec.keynow ) {
     var keyname = spec.keynow[i];
     var item = this.specCache[alias].jsonmap[keyname];
-    this.elem.append(kizmic_elementHTML(item.name,
-          this.buffer, this.highlight_tag, item.type));
+    this.elem.append(this.elementHTML(item.name, this.buffer, item.type));
   }
   if (spec.keynow.length == 0) {
+    this.elem.append(this.elementHTML(this.buffer, this.buffer, 'error'));
   }
 };
 
