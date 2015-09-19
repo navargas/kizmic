@@ -18,7 +18,7 @@ Type into a computer keyboard
 ## Configuration
 Each 'page' is defined by an array of objects.
 
-```
+```javascript
 var index = [
   {name:"Barber Shop", type:"title", inactive:true},
   {name:"start typing to begin", type:"suggestion"},
@@ -35,7 +35,7 @@ var haircuts = [
 
 These arrays can be used to configure a frontend
 
-```
+```javascript
 // Give the id of the target <div> you wish to display kizmic in.
 k = new kizmic('#htmlElementId');
 
