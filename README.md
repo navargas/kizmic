@@ -46,3 +46,5 @@ k.load(haircuts, 'haircuts');
 // Select an initial view
 k.show('home');
 ```
+
+![example interface](http://imgur.com/waACtUO.png)
