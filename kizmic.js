@@ -69,9 +69,13 @@ kizmic.prototype.show = function(alias) {
   for ( var i in spec.keynow ) {
     var keyname = spec.keynow[i];
     var item = this.specCache[alias].jsonmap[keyname];
+    if (this.buffer !== '' && item.type == 'suggestion')
+      continue;
+    if (this.buffer !== '' && item.inactive)
+      continue;
     this.elem.append(this.elementHTML(item.name, this.buffer, item.type));
   }
-  if (spec.keynow.length == 0) {
+  if (this.elem.children('div').length == 0) {
     this.elem.append(this.elementHTML(this.buffer, this.buffer, 'error'));
   }
 };
