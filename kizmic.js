@@ -10,7 +10,7 @@ var kizmic = function(selector) {
   kizmic_focus = this;
 };
 
-var kizmic_startsWith = function(characters) {
+kizmic.startsWith = function(characters) {
   /* return function that yeilds true for all characters beginning with 'characters' */
   var check = characters;
   function checkLeadingChars(string) {
@@ -22,7 +22,7 @@ var kizmic_startsWith = function(characters) {
   return checkLeadingChars;
 };
 
-var kizmic_highlight = function(string, selector, wrap) {
+kizmic.highlight = function(string, selector, wrap) {
   /* Transform "string" into "st<wrap>rin</wrap>g" */
   var pos = string.indexOf(selector);
   var head = string.substring(0, pos);
@@ -55,7 +55,7 @@ kizmic.prototype.jump = function(alias) {
 kizmic.prototype.elementHTML = function(text, select, styleClass) {
   /* generate DOM object for kizmic item */
   var lItem = $('<div>');
-  lItem.html(kizmic_highlight(text, select, this.highlight_tag));
+  lItem.html(kizmic.highlight(text, select, this.highlight_tag));
   lItem.addClass(styleClass);
   return lItem;
 };
@@ -91,7 +91,7 @@ kizmic.prototype.select = function() {
 
 kizmic.prototype.narrow = function(characters) {
   /* narrow original item list to just items that begin with 'characters' */
-  var selection = this.specCache[this.currentSpec].keyorig.filter(kizmic_startsWith(characters));
+  var selection = this.specCache[this.currentSpec].keyorig.filter(kizmic.startsWith(characters));
   this.specCache[this.currentSpec].keynow = selection;
   console.log(selection);
   this.show(this.currentSpec);
