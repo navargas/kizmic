@@ -104,6 +104,10 @@ kizmic.prototype.key = function(e) {
   if (keycode >= 32 && keycode <= 126) {
     // valid printable character
     var character = String.fromCharCode(keycode);
+    if (character === ' ' && this.buffer.length === 0) {
+      // ignore leading spaces
+      return;
+    }
     this.buffer += character;
     console.log('Buffer:', this.buffer);
     this.narrow(this.buffer);
